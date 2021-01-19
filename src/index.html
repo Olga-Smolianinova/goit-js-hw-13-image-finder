@@ -5,12 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>MODUL 13</title>
+    <!-- Для иконок используются Material icons. Для их корректной работы добавляем  ссылку на веб-шрифт. -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!-- bootstrap, где уже есть готовый
+    спиннер ) установливаем через cdn, а не как
+    npm-пакет(чтобы не затягивать много ненужной информации); -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
   </head>
 
   <body>
     <main>
       <!-- Домашнее задание №12 -->
-      <section>
+      <!-- <section>
         <h1>COUNTRIES (HW 12):</h1>
         <form class="search-form">
           <label
@@ -20,6 +34,59 @@
         </form>
 
         <ul class="countries"></ul>
+      </section> -->
+
+      <!-- Домашнее задание №13 -->
+      <section>
+        <!-- форма поиска -->
+        <h1>IMAGES (HW 13)</h1>
+        <form class="search-form" id="search-form">
+          <input
+            type="text"
+            name="query"
+            autocomplete="off"
+            placeholder="Search images..."
+          />
+        </form>
+
+        <!-- Результат запроса -->
+        <ul class="gallery">
+          <!-- Список <li> с карточками изображений -->
+        </ul>
+
+        <!-- кнопка для дозагрузки части информации (рестпагинации) -->
+        <!-- чтобы кнопки не было видно на странице при входе, добавляем class="is-hidden" -->
+        <button
+          class="btn btn-primary button is-hidden"
+          type="button"
+          data-action="load-more"
+        >
+          <span
+            class="spinner-border spinner-border-sm spinner is-hidden"
+            role="status"
+            aria-hidden="true"
+          ></span>
+
+          <span class="label"> Load more</span>
+        </button>
+
+        <!--
+      Модальное окно для полноразмерного изображения
+      Для того чтобы открыть, необходимо добавить на div.lightbox CSS-класс is-open
+    -->
+        <div class="lightbox js-lightbox">
+          <div class="lightbox__overlay"></div>
+
+          <div class="lightbox__content">
+            <img class="lightbox__image" src="#" alt="" />
+          </div>
+
+          <button
+            type="button"
+            class="lightbox__button"
+            data-action="close-lightbox"
+          ></button>
+        </div>
       </section>
     </main>
   </body>

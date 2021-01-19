@@ -3,4 +3,9 @@ import './styles.css';
 
 import './js/notification.js';
 
-import './js/fetchCountries.js';
+// import './js/fetchCountries.js';
+
+// Домашнее задание №13
+import './js/lightboxModal.js';
+
+import './js/fetchPhotos.js';
