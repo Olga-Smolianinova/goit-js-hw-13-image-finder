@@ -20,8 +20,6 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  /* align-items: center; */
-  /* комментирую центрирование по вертикали, т.к. разметка очень прыгает, когда изменяются результаты поиска  */
 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif,
@@ -33,91 +31,6 @@ body {
   background-image: url('./images/bg-pattern.png');
 }
 
-.intro {
-  text-align: center;
-}
-
-.intro h1 {
-  margin-top: 0;
-  font-weight: 500;
-  font-size: 40px;
-}
-
-/* .intro img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-} */
-
-/* Домашнее задание №12 */
-/* HTML */
-/* h1 {
-  margin: 0;
-  font-weight: 500;
-  font-size: 28px;
-  text-align: center;
-}
-.search-form {
-  text-align: center;
-  font-size: 22px;
-  font-weight: 500;
-}
-.search-form input {
-  width: 200px;
-  height: 40px;
-}
-
-.countries {
-  padding: 0;
-} */
-
-/* шаблон one-country.hbs */
-/* h2 {
-  margin: 0;
-  font-weight: 500;
-  font-size: 24px;
-  text-align: center;
-}
-p {
-  margin: 0;
-  padding: 0;
-}
-.result-elm {
-  list-style: none;
-  font-size: 18px;
-}
-
-.result-box {
-  display: flex;
-}
-.text {
-  font-weight: 600;
-  font-size: 20px;
-}
-.languages-list {
-  padding: 0;
-  list-style-type: disc;
-}
-
-.languages-elm {
-  margin-left: 20px;
-}
-
-.flag-box {
-  margin-left: 20px;
-}
-.flag-box img {
-  display: block;
-} */
-
-/* шаблон list-countries.hbs */
-/* .country-list {
-  margin-left: 20px;
-  font-weight: 500;
-  font-size: 18px;
-} */
-
-/* Домашнее задание №13 */
 /* HTML  форма поиска */
 h1 {
   margin: 0 0 10px;
@@ -141,10 +54,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  /* width: 1200px; */
-  /* grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  grid-auto-rows: 240px;
-  grid-gap: 12px; */
+
   padding: 0;
   list-style: none;
   margin-left: auto;
@@ -168,7 +78,6 @@ h1 {
   display: block;
   height: auto;
   width: 100%;
-  /* object-fit: cover; */
 }
 .stats {
   display: flex;
@@ -231,10 +140,6 @@ h1 {
   transform: scale(0.95);
   transition: transform var(--animation-duration) var(--timing-function);
 }
-
-/* .lightbox.is-open .lightbox__content {
-  transform: scale(1);
-} */
 
 .lightbox__image {
   display: block;

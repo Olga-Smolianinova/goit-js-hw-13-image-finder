@@ -14,14 +14,14 @@ import apiServise from './apiServise.js';
 import loadMore from './loadMoreBtn.js';
 
 // доступ к функция showError() и showNotice() из notificaion.js для вывода сообщения о некорректном запросе и уведомлении
-// import { showError, showNotice } from './notification.js';
+import { showError, showNotice } from './notification.js';
 
 // Для того чтобы работала поисковая строка, сначала вешаем слушателя событий на форму и получаем доступ к тому, что введет пользователь в input, обратившись к  event.target.value. Также добавляем debounce для того, чтобы текст из input появлялся через 1000ms после того как пользователь перестал вводить текст и обрабатываем действия в функции onFormSearch
 refs.form.addEventListener('input', debounce(onFormSearch, 1000));
 
 function onFormSearch(event) {
   apiServise.query = event.target.value;
-  console.log(apiServise.query);
+  // console.log(apiServise.query);
 
   // чтобы при добавлении новой информации поиска предыдущий список не показывался и обновлялся прописываем:
   refs.container.innerHTML = '';
@@ -43,26 +43,42 @@ refs.loadMoreBtn.addEventListener('click', onFetch);
 function onFetch() {
   //  перед HTTP-запросом скрываем кнопку "Load more" и запускаем спиннер
   // чтобы пока идет HTTP-запрос и работает спиннер кнопка "Load more" была скрыта
-  // при нажатии на кнопку"Показать еще" запускаем спиннер:
+  // при нажатии на кнопку"Load more" запускаем спиннер:
   loadMore.disable();
 
   // обрабатваем запрос из input, встраиваем в шаблон и отображаем в HTML с помощью функции fetchImg, работа которой прописана в файле apiServise.js
-  apiServise.fetchImg().then(hits => {
-    console.log(hits);
 
-    updateImg(hits);
+  apiServise
+    .fetchImg()
+    .then(hits => {
+      if (hits.length === 0) {
+        throw new Error('Error fetching data'); //прописываем для того чтобы лучше отловить ошибки. В случае, если данные по запросу отсутствуют и  вернулся [], ошибка ловится в catch
+        return;
+      } else if (!apiServise.query) {
+        loadMore.hideBtnLoadMore();
+        showNotice('Please, enter your request!');
+        return;
+      }
+      // console.log(hits);
+      // обрабатываем данные с бекенда и встраиваем их в шаблон с помощью функции updateImg, работа которой прописана в файле updateImg.js
+      updateImg(hits);
 
-    loadMore.showBtnLoadMore(); //изначально кнопка "Load more" скрыта, показываем ее после первого http-запроса:
+      loadMore.showBtnLoadMore(); //изначально кнопка "Load more" скрыта, показываем ее после первого http-запроса:
 
-    loadMore.enable(); //работа спиннера
+      loadMore.enable(); //работа спиннера
 
-    // Метод window.scrollTo позволяет сделать плавную прокрутку.
-    // когда успешно все загрузилось, чтобы прокрутить до самого низа окно. Это стоит делать  в том случае, если знаем что загрузжается указанное колчиство элементов на странице. Чтобы прокрутить на всю высоту до самого низа документа:
-    window.scrollTo({
-      // top: 10000000,
-      // чтобы не прописывать рандомное число для корректной прокрутки, указем свойство, которое отвечает за всю высоту документа offsetHeight:
-      top: document.documentElement.offsetHeight,
-      behavior: 'smooth',
+      // Метод window.scrollTo позволяет сделать плавную прокрутку.
+      // когда успешно все загрузилось, чтобы прокрутить до самого низа окно. Это стоит делать  в том случае, если знаем что загрузжается указанное количество элементов на странице. Чтобы прокрутить на всю высоту до самого низа документа:
+      window.scrollTo({
+        // top: 10000000,
+        // чтобы не прописывать рандомное число для корректной прокрутки, указем свойство, которое отвечает за всю высоту документа offsetHeight:
+        top: document.documentElement.offsetHeight,
+        behavior: 'smooth',
+      });
+    })
+    .catch(error => {
+      loadMore.hideBtnLoadMore();
+      showError('No matches were found!');
+      return;
     });
-  });
 }

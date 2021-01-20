@@ -6,6 +6,7 @@ import * as basicLightbox from 'basiclightbox';
 
 const instance = basicLightbox.create(refs.modalImg);
 // console.log(instance);
+
 // =============================================================
 // СЛУШАТЕЛИ СОБЫТИЙ
 // для открытия и закрытия модального окна вешаем слушателя событий на родителя li - это ul -refs.container
@@ -48,7 +49,7 @@ function onCloseModal() {
   // Очистка значения атрибутов img
   refs.modalImg.src = '';
   refs.modalImg.alt = '';
-  console.log(refs.modalImg);
+  // console.log(refs.modalImg);
 
   // закрытие модального окна из плагина basicLightbox и снятие класса 'is-open'
   instance.close();
