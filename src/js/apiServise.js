@@ -14,11 +14,20 @@ export default {
 
     return fetch(url)
       .then(response => {
-        // console.log(response.status);
+        // console.log(response);
         return response.json();
       })
       .then(({ hits }) => {
         this.page += 1; //для того чтобы при нажатии на кнопку "Load more" подгружалась новая часть запроса на следующей странице
+
+        // console.log('hits.length:', hits.length);
+        // console.log('perPage: ', this.perPage);
+        // // console.log(this.loadMore.hideBtnLoadMore());
+
+        if (hits.length === 0) {
+          throw new Error('Error fetching data'); //прописываем для того чтобы лучше отловить ошибки. В случае, если данные по запросу отсутствуют и  вернулся [], ошибка ловится в catch
+          return;
+        }
 
         return hits;
       });

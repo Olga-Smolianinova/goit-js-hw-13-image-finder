@@ -1,6 +1,5 @@
 import refs from './refs.js';
 
-// const basicLightbox = require('basiclightbox');
 import * as basicLightbox from 'basiclightbox';
 // console.log(basicLightbox);
 

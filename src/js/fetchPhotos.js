@@ -2,7 +2,7 @@
 import refs from './refs.js';
 
 // доступ к debounce, чтобы текст из input появлялся через 1000ms после того как пользователь перестал вводить текст
-import debounce from 'lodash.debounce';
+// import debounce from 'lodash.debounce';
 
 // Доступ к функции для встраивания данных с бекенда  через шаблон в HTML
 import updateImg from './updateImg.js';
@@ -17,10 +17,12 @@ import loadMore from './loadMoreBtn.js';
 import { showError, showNotice } from './notification.js';
 
 // Для того чтобы работала поисковая строка, сначала вешаем слушателя событий на форму и получаем доступ к тому, что введет пользователь в input, обратившись к  event.target.value. Также добавляем debounce для того, чтобы текст из input появлялся через 1000ms после того как пользователь перестал вводить текст и обрабатываем действия в функции onFormSearch
-refs.form.addEventListener('input', debounce(onFormSearch, 1000));
+refs.form.addEventListener('submit', onFormSearch);
 
 function onFormSearch(event) {
-  apiServise.query = event.target.value;
+  event.preventDefault();
+
+  apiServise.query = event.target.elements.query.value;
   // console.log(apiServise.query);
 
   // чтобы при добавлении новой информации поиска предыдущий список не показывался и обновлялся прописываем:
@@ -34,6 +36,8 @@ function onFormSearch(event) {
 
   // // чтобы очищались данные input:
   // refs.form.reset();
+  // или
+  // event.target.elements.query.value = '';
 }
 
 // для дозагрузки информации (рестпагинация) вешаем слушателя события на кнопку "Load more" и прописываем как обрабатывать HTTP-запрос:
@@ -46,19 +50,31 @@ function onFetch() {
   // при нажатии на кнопку"Load more" запускаем спиннер:
   loadMore.disable();
 
+  //проверка на то, если пользователь ничего не ввел в input выводим notification
+  if (!apiServise.query) {
+    loadMore.hideBtnLoadMore();
+    showNotice('Please, enter your request!');
+    return;
+  }
+
   // обрабатваем запрос из input, встраиваем в шаблон и отображаем в HTML с помощью функции fetchImg, работа которой прописана в файле apiServise.js
 
   apiServise
     .fetchImg()
     .then(hits => {
-      if (hits.length === 0) {
-        throw new Error('Error fetching data'); //прописываем для того чтобы лучше отловить ошибки. В случае, если данные по запросу отсутствуют и  вернулся [], ошибка ловится в catch
-        return;
-      } else if (!apiServise.query) {
+      //
+      if (hits.length !== apiServise.perPage) {
+        updateImg(hits);
+        showNotice(
+          'You have viewed all the images for your request. Please, enter a new search!',
+        );
         loadMore.hideBtnLoadMore();
-        showNotice('Please, enter your request!');
+
+        // console.log('hits.length:', hits.length);
+        // console.log('perPage: ', apiServise.perPage);
         return;
       }
+
       // console.log(hits);
       // обрабатываем данные с бекенда и встраиваем их в шаблон с помощью функции updateImg, работа которой прописана в файле updateImg.js
       updateImg(hits);
